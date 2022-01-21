@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 #A symmetrical data set for 5 individuals for 5 days. Matrix elements are intensities of flowering
 #Rows are different individuals and columns are different days
 
-data = np.array([[0.5]*5]*5)
+#data = np.array([[0.5]*5]*5)
 #print(data)
 
 #data = np.array([0.5, 0.5, 0.5, 0, 0, 0.5, 0.5, 0.5, 0, 0]).reshape((2,5))   #data1
@@ -16,7 +16,7 @@ data = np.array([[0.5]*5]*5)
 
 #Other types of toy data sets
 #N=5, T=5, symmetrical but not perfect synchrony
-#data = np.array([0.25, 0.5, 0.25, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0.25, 0.5, 0.25]).reshape((5,5))
+data = np.array([0.25, 0.5, 0.25, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0.25, 0.5, 0.25]).reshape((5,5))
 #N=5, T=5, symmetrical (not uniform) and perfect synchrony
 #data = np.array([0.25, 0.5, 0.5, 0.25, 0.25, 0.5, 0.5, 0.25, 0.25, 0.5, 0.5, 0.25, 0.25, 0.5, 0.5, 0.25]).reshape((4, 4))
 
@@ -96,9 +96,9 @@ x5 = x5[0::N-1]
 modf_ind = x4/x5
 modf_pop = np.mean(modf_ind)
 
-#print(x1)
-#print(x2)
-#print(x3)  #To understand the numerators and denominators in the indices
+print(x1)
+print(x2)
+print(x3)  #To understand the numerators and denominators in the indices
 print(frietas_pop, frietas_ind, modf_pop, modf_ind)
 
 #How would these indices vary with changes in number of individuals and number of days?
@@ -149,7 +149,7 @@ x = np.array([100, 66, 33, 0])
 plt.plot(x, f_ov, '--og', label="Frietas")
 plt.plot(x, modf_ov, '-.ob', label="Modified Frietas")
 plt.ylim(0, 1)
-plt.title("Variation in indices with intensity")
+plt.title("Variation in indices with overlap")
 plt.xlabel("Overlap (in %)")
 plt.ylabel("Synchrony index")
 plt.legend()
