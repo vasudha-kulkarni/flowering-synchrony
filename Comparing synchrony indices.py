@@ -16,9 +16,12 @@ from matplotlib import pyplot as plt
 
 #Other types of toy data sets
 #N=5, T=5, symmetrical but not perfect synchrony
-data = np.array([0.25, 0.5, 0.25, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0.25, 0.5, 0.25]).reshape((5,5))
+#data = np.array([0.25, 0.5, 0.25, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0, 0.25, 0.5, 0.25, 0, 0, 0.25, 0.5, 0.25]).reshape((5,5))
 #N=5, T=5, symmetrical (not uniform) and perfect synchrony
 #data = np.array([0.25, 0.5, 0.5, 0.25, 0.25, 0.5, 0.5, 0.25, 0.25, 0.5, 0.5, 0.25, 0.25, 0.5, 0.5, 0.25]).reshape((4, 4))
+
+#data from Souparna Chakrabarty's presentation
+#data = np.array([0.5, 1, 0.1, 0, 0, 0, 0, 0.5, 1, 0.1]).reshape(2,5)
 
 #They vary normally in intensity (intensity values range between 0-1)
 #Intensity peaks shift by a day (1-2 on day 2, 3rd on day 3, 4-5 on day 4)
@@ -40,7 +43,7 @@ for i in range(N):
 y1 = []
 for i in range(0, len(x1)):
     a = sum(x1[i:i+(N-1)])
-    y1.append(a/(T*(N-1)))
+    y1.append(a/(T*(N-1)))         #Not quite right because it has to be divided by T(i) - number of days the individual flowers
 y1 = np.array(y1)
 frietas_ind = y1[0::N-1]
 frietas_pop = np.mean(frietas_ind)
@@ -97,8 +100,8 @@ modf_ind = x4/x5
 modf_pop = np.mean(modf_ind)
 
 print(x1)
-print(x2)
-print(x3)  #To understand the numerators and denominators in the indices
+#print(x2)
+#print(x3)  #To understand the numerators and denominators in the indices
 print(frietas_pop, frietas_ind, modf_pop, modf_ind)
 
 #How would these indices vary with changes in number of individuals and number of days?
