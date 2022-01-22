@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 #A symmetrical data set for 5 individuals for 5 days. Matrix elements are intensities of flowering
 #Rows are different individuals and columns are different days
 
-#data = np.array([[0.5]*5]*5)
+data = np.array([[0.5]*5]*5)
 #print(data)
 
 #data = np.array([0.5, 0.5, 0.5, 0, 0, 0.5, 0.5, 0.5, 0, 0]).reshape((2,5))   #data1
