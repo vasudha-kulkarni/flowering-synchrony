@@ -38,14 +38,14 @@ for i in range(N):
             x = []
             for t in range(T):
                 x.append(np.sqrt(data[i, t]*data[j, t]))
-                sum(x)
+            sum(x)
             x1.append(sum(x))
 y1 = []
 for i in range(0, len(x1)):
-    a = sum(x1[i:i+(N-1)])
+    a = sum(x1[i:i+(N-1)])         #sums the first n-1 elements, frameshifts and sums the next n-1 elements again
     y1.append(a/(T*(N-1)))         #Not quite right because it has to be divided by T(i) - number of days the individual flowers
 y1 = np.array(y1)
-frietas_ind = y1[0::N-1]
+frietas_ind = y1[0::N-1]           #only keep every (n-1)th element, in between are sums of frameshifted elements
 frietas_pop = np.mean(frietas_ind)
 
 #frietas = (sum(x1)/(T*(N-1)))/N
