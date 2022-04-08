@@ -49,8 +49,9 @@ freitas <- function(data) {
   #print(x2)
   freitas_ind <- array(x2 / (t_ind * (n - 1)), dim = c(1, n))
   freitas_pop <- mean(freitas_ind)
-  print(freitas_ind)
-  print(freitas_pop)
+  #print(freitas_ind)
+  #print(freitas_pop)
+  return(freitas_pop)
 }
 
 ###############################################################################
@@ -100,17 +101,19 @@ chakra_thesis <- function (data) {
   }
   x3 <- array(x3, dim = c(1, n * (n - 1)))
   #print(x3)
-  x4 <- colSums(matrix(x3, nrow = n - 1))
+  x4 <- colSums(matrix(x3, nrow = n - 1)) #denominator for each individual
   #print(x4)
   chakra_thesis_ind <- x2/x4
   chakra_thesis_pop <- mean(chakra_thesis_ind)
-  print(chakra_thesis_ind)
-  print(chakra_thesis_pop)
+  #print(chakra_thesis_ind)
+  #print(chakra_thesis_pop)
+  return(chakra_thesis_pop)
 }
 
 ##############################################################################
 
 #Chakrabarty's (new) index calculation
+#(n - 1) int he denominator removed
 
 chakra_new <- function (data) {
   n <- nrow(data)
@@ -153,17 +156,18 @@ chakra_new <- function (data) {
   x3 <- array(x3, dim = c(1, n * (n - 1)))
   x4 <- colSums(matrix(x3, nrow = n - 1))   #denominator for each individual
   #print(x4)
-  x4 <- x4 * (n - 1)
+  x4 <- x4
   x5 <- x2 / x4
   chakra_new_ind <- x5
   chakra_new_pop <- mean(chakra_new_ind)
-  print(chakra_new_ind)
-  print(chakra_new_pop)
+  #print(chakra_new_ind)
+  #print(chakra_new_pop)
+  return(chakra_new_pop)
 }
 
 ########################################################################
 
-#Modifications to the New Index -
+#Modifications to the new index -
 #1. removing (n-1) from the denominator
 #2. modifying my maximum intensity of individual
 
@@ -176,7 +180,7 @@ chakra_april <- function (data) {
     tmp <- data[i, ] / max(data)
     data_norm <- rbind(data_norm, tmp)
   }
-  #Recording maximum intensity of each individual
+  #maximum intensity of each individual
   max_int <- NULL
   for (i in 1:nrow(data_norm)) {
     max_int <- append(max_int, max(data_norm[i, ]))
@@ -217,13 +221,12 @@ chakra_april <- function (data) {
   x4 <- x4        #removed the (n-1) from the denominator
   x5 <- x2 / x4
   #print(x5)
-  chakra_new_ind <- x5 * max_int   #Modulating synchrony index of each individual by its max intensity
-  chakra_new_pop <- mean(chakra_new_ind)
-  #print(chakra_new_ind)
-  print(chakra_new_pop)
+  chakra_april_ind <- x5 * max_int
+  chakra_april_pop <- mean(chakra_april_ind)
+  #print(chakra_april_ind)
+  #print(chakra_april_pop)
+  return(chakra_april_pop)
 }
-
-########################################################################
 
 #Data from Souparna Chakrabarty's presentation
 data1 <- array(c(0.5, 0, 1, 0, 0.1, 0.5, 0, 1, 0, 0.1), dim = c(2, 5))
@@ -233,15 +236,4 @@ chakra_thesis(data1)
 chakra_new(data1)
 chakra_april(data1)
 
-#To show how convolution works
-print(data1[1,])
-print(data1[2,])
-z <- convolve(data1[1,], rev(data1[2,]), conj = FALSE, type = c("open"))
-print(z)
-print(max(z))
 
-a <- c(1, 2, 1, 0, 0)
-b <- c(0, 0, 1, 3, 5)
-xkcd <- convolve(a, rev(b), conj = FALSE, type = c("open"))
-print(xkcd)
-print(max(xkcd))
