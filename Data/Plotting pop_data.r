@@ -64,6 +64,34 @@ for (i in 1:length(fsd)) {
     print(p_f)
 }
 
+#####
+
+#Creating a heatmap of indice values while varying Fsd and Tsd
+
+data_freitas <- data_long[(data_long$name == "freitas_si"), ]
+ph_freitas <- ggplot(data = data_freitas, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
+        theme_minimal() + ggtitle("Heatmap of Freitas index") +
+        xlab("Fsd") + ylab("Tsd")
+
+data_thesis <- data_long[(data_long$name == "chakra_thesis_si"), ]
+ph_thesis <- ggplot(data = data_thesis, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
+        theme_minimal() + ggtitle("Heatmap of Thesis index") +
+        xlab("Fsd") + ylab("Tsd")
+
+data_new <- data_long[(data_long$name == "chakra_new_si"), ]
+ph_new <- ggplot(data = data_new, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
+        theme_minimal() + ggtitle("Heatmap of New index") +
+        xlab("Fsd") + ylab("Tsd")
+
+data_april <- data_long[(data_long$name == "chakra_april_si"), ]
+ph_april <- ggplot(data = data_april, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
+        theme_minimal() + ggtitle("Heatmap of April index") +
+        xlab("Fsd") + ylab("Tsd")
+
+grid.arrange(ph_freitas, ph_thesis, ph_new, ph_april, ncol = 2, nrow = 2)
+
+#####
+
 #How well do mating opportunities correlate with indices?
 
 p_mat <- ggplot(data = data_long, aes(x = mating_opp_si, y = value, colour = name, group = name)) +               #nolint
@@ -75,3 +103,53 @@ p_out <- ggplot(data = data_long, aes(x = outcross_opp_si, y = value, colour = n
         geom_line() + geom_point() + theme_minimal() + ggtitle("Variation of indices with outcrossing opportunities") +      #nolint
         xlab("Outcrossing opportunities") + ylab("Indices")
 p_out
+
+#Correlation coefficient between mating opportunities and synchrony indices
+cor(basedata$freitas_si, basedata$mating_opp_si)       #0.80
+cor(basedata$chakra_thesis_si, basedata$mating_opp_si) #0.99
+cor(basedata$chakra_new_si, basedata$mating_opp_si)    #0.18
+cor(basedata$chakra_april_si, basedata$mating_opp_si)  #0.31
+
+cor(basedata$freitas_si, basedata$outcross_opp_si)       #0.80
+cor(basedata$chakra_thesis_si, basedata$outcross_opp_si) #1
+cor(basedata$chakra_new_si, basedata$outcross_opp_si)    #0.20
+cor(basedata$chakra_april_si, basedata$outcross_opp_si)  #0.34
+
+#########
+
+#Why the oscillatory behaviour of New and April indices?
+#See how it changes with Fsd and Tsd
+#Outcross opportunities and New index behave in a very similar way, so not plotting them separately
+
+mat_april <- data_long[(data_long$name == "chakra_april_si"), ]
+#mat_april <- mat_april[(mat_april$Fsd == 30), ]  #to see how the behaviour changes at particular Fsd #nolint
+
+p_mat_april_fsd <- ggplot(data = mat_april, aes(x = mating_opp_si, y = value)) +               #nolint
+        geom_line() + geom_point() + theme_minimal() + ggtitle("April index vs. mating opportunities (Fsd = 30)") +      #nolint
+        xlab("Mating opportunities") + ylab("April index")
+p_mat_april_fsd
+
+p_mat_april_tsd <- ggplot(data = mat_april, aes(x = mating_opp_si, y = value, colour = Tsd)) +               #nolint
+        geom_line() + geom_point() + theme_minimal() + ggtitle("April index vs. mating opportunities (Tsd)") +      #nolint
+        xlab("Mating opportunities") + ylab("April index")
+p_mat_april_tsd
+
+#############
+
+#Correlation coefficient for 5 individuals
+basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Data\\pop_data_5ind.csv") #nolint
+basedata$Tsd <- as.factor(basedata$Tsd)
+basedata$Fsd <- as.factor(basedata$Fsd)
+
+#For 5 individuals
+cor(basedata$freitas_si, basedata$mating_opp_si)       #0.63
+cor(basedata$chakra_thesis_si, basedata$mating_opp_si) #0.989
+cor(basedata$chakra_new_si, basedata$mating_opp_si)    #0.094
+cor(basedata$chakra_april_si, basedata$mating_opp_si)  #0.12
+
+cor(basedata$freitas_si, basedata$outcross_opp_si)       #0.70
+cor(basedata$chakra_thesis_si, basedata$outcross_opp_si) #1
+cor(basedata$chakra_new_si, basedata$outcross_opp_si)    #0.22
+cor(basedata$chakra_april_si, basedata$outcross_opp_si)  #024
+
+##########
