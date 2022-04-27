@@ -1,7 +1,7 @@
 #####
 #
 #This file contains code to set github directory and calculate synchrony
-#indices using data in .csv files
+#indices (with modified intensity) using data in .csv files
 #
 #####
 
@@ -13,7 +13,7 @@ library(readr)
 setwd("d:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations") # nolint
 getwd()
 
-source("Synchrony indices.r") #Calculates all synchrony indices and mating opportunities #nolint
+source("Synchrony indices_modified intensity.r") #Calculates all modified synchrony indices and mating opportunities #nolint
 
 #################
 
@@ -34,7 +34,7 @@ header_true <- function(df) {
 
 flo_data <- header_true(flo_data)
 
-data <- as.matrix(flo_data[1:100, ])
+data <- as.matrix(flo_data)
 print(data[1:3, 170:190])
 
 ####################################################
@@ -47,10 +47,11 @@ data4 <- array(c(10, 1, 10, 1, 10, 1, 10, 1, 10, 1), dim = c(2, 5))
 mating_opp(data[1:30, ])
 outcross_opp(data[1:30, ])
 
-freitas(data)
-chakra_thesis(data)
-chakra_new(data)
-chakra_april(data)
+freitas(data[1:5, ])
+chakra_thesis(data[1:5, ])
+chakra_new(data[1:5, ])
+chakra_april(data[1:5, ])
+augspurger(data[1:5, ])
 
 ####################################################################
 
@@ -105,13 +106,13 @@ for (i in seq_along(data_files)) {
 for (i in seq_along(data_files)) {
     #print(file_contents[[i]]) #nolint
     data <- as.matrix(data_files[[i]])
-    freitas_si <- append(freitas_si, freitas(data[1:100, ]))
-    chakra_thesis_si <- append(chakra_thesis_si, chakra_thesis(data[1:100, ]))
-    chakra_new_si <- append(chakra_new_si, chakra_new(data[1:100, ]))            #nolint
-    chakra_april_si <- append(chakra_april_si, chakra_april(data[1:100, ]))      #nolint
-    augspurger_si <- append(augspurger_si, augspurger(data[1:100, ]))
-    mating_opp_si <- append(mating_opp_si, mating_opp(data[1:100, ]))
-    #outcross_opp_si <- append(outcross_opp_si, outcross_opp(data[1:100, ]))      #nolint
+    freitas_si <- append(freitas_si, freitas(data[1:30, ]))
+    chakra_thesis_si <- append(chakra_thesis_si, chakra_thesis(data[1:30, ]))
+    chakra_new_si <- append(chakra_new_si, chakra_new(data[1:30, ]))            #nolint
+    chakra_april_si <- append(chakra_april_si, chakra_april(data[1:30, ]))      #nolint
+    augspurger_si <- append(augspurger_si, augspurger(data[1:30, ]))
+    mating_opp_si <- append(mating_opp_si, mating_opp(data[1:30, ]))
+    outcross_opp_si <- append(outcross_opp_si, outcross_opp(data[1:30, ]))      #nolint
 }
 
 #for (i in seq_along(data_files)) {
@@ -134,10 +135,10 @@ for (i in seq_along(data_files)) {
 #outcross_opp_si
 #file_names
 
-other_si <- data.frame(augspurger_si, mahoro_si, marquis_si, koenig_si, albert_si) #nolint
-write.csv(other_si, "D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations\\Other_SIs.csv") #nolint
+#other_si <- data.frame(augspurger_si, mahoro_si, marquis_si, koenig_si, albert_si) #nolint
+#write.csv(other_si, "D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations\\Other_SIs.csv") #nolint
 
-population_data <- data.frame(file_names, freitas_si, chakra_thesis_si, chakra_new_si, chakra_april_si, augspurger_si, mating_opp_si) #nolint
-population_data
+population_data_mod_int <- data.frame(file_names, freitas_si, chakra_thesis_si, chakra_new_si, chakra_april_si, augspurger_si, mating_opp_si, outcross_opp_si) #nolint
+population_data_mod_int
 
-write.csv(population_data, "D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations\\pop_data_10ind_some_Fsd_Tsd.csv") #nolint
+write.csv(population_data_mod_int, "D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations\\pop_data_30ind_modified_intensity.csv") #nolint
