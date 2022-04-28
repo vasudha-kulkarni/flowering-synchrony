@@ -7,12 +7,29 @@
 ######
 
 library(tidyverse)
+library(sigmoid)
 library(ggplot2)
 library(gridExtra)
 library(RColorBrewer)
 library(readr)
 
 ######
+
+#Constructing a sigmoid function of pollinator visitation with flower number
+
+x <- seq(-10, 10, by = 0.5)
+y <- c()
+for (i in x) {
+    y <- append(y, logistic(i))
+}
+
+data1 <- data.frame(x, y)
+
+p <- ggplot(data = data1, aes(x, y)) + geom_line() + geom_point() + theme_minimal() #nolint
+p
+    
+
+####################################################################
 
 #To construct a sigmoid curve between pollinator visitation rate and flower density                     #nolint
 #All of this is arbitrary numbers

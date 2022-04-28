@@ -9,18 +9,20 @@
 #for Tsd and Fsd so that they can be plotted separately
 
 library(tidyverse)
-library(ggplot2)
-library(ggthemes)
-library(gridExtra)
-library(RColorBrewer)
 library(readr)
 
-basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Data\\pop_data_100ind.csv") #nolint
+library(ggplot2)
+library(ggthemes)
+library(RColorBrewer)
+library(gridExtra)
+
+basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Data\\pop_data_100ind_mi_b.csv") #nolint
 basedata$Tsd <- as.factor(basedata$Tsd)
 basedata$Fsd <- as.factor(basedata$Fsd)
 
 #To make the next section of plotting easier, use 'pivot' function from 'tidyverse' library #nolint
 data_long <- basedata %>% pivot_longer(cols = -c(...1, file_names, Tsd, Fsd, Mating_opportunities)) #nolint
+data_long <- data_long[!(data_long$name == 'New_mi'), ]
 
 #Winnow down basedata - for extra Fsd plooting
 #basedata1 <- rbind(basedata[(basedata$Tsd == 10), ], basedata[(basedata$Tsd == 5), ], basedata[(basedata$Tsd == 1), ]) #nolint
@@ -30,8 +32,20 @@ data_long <- basedata %>% pivot_longer(cols = -c(...1, file_names, Tsd, Fsd, Mat
 
 #Plotting data for 100 individuals
 
-baseplot <- ggplot(data = basedata, aes(x = Fsd, y = Freitas, colour = Tsd, group = Tsd)) + #nolint
+baseplot <- ggplot(data = data_long, aes(x = Mating_opportunities, y = value, colour = name, group = name)) + #nolint
         geom_point() + geom_line()
+        #geom_tile()
+
+labelled <- baseplot + labs(x = "Mating opportunities", y = "Synchrony indices (mi)", title = "Variation in Synchrony indices (modified intensity)
+with Mating opportunities") #nolint
+
+styled <- labelled + theme_minimal() + theme(
+        text = element_text(family = "mono"),
+        plot.title = element_text(size = 12, face = "bold"),
+        axis.text.x = element_text(size = rel(0.75)),
+        axis.text.y = element_text(size = rel(0.75)),
+)
+styled
 
 #plotting the data
 
@@ -91,27 +105,27 @@ grid.arrange(p_freitas, p_thesis, p_new, p_april, p_augspurger)
 
 #Creating a heatmap of indice values while varying Fsd and Tsd
 
-data_freitas <- data_long[(data_long$name == "freitas_si"), ]
+data_freitas <- data_long[(data_long$name == "Freitas_mi"), ]
 ph_freitas <- ggplot(data = data_freitas, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
         theme_minimal() + ggtitle("Heatmap of Freitas index") +
         xlab("Fsd") + ylab("Tsd")
 
-data_thesis <- data_long[(data_long$name == "chakra_thesis_si"), ]
+data_thesis <- data_long[(data_long$name == "Thesis_mi"), ]
 ph_thesis <- ggplot(data = data_thesis, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
         theme_minimal() + ggtitle("Heatmap of Thesis index") +
         xlab("Fsd") + ylab("Tsd")
 
-data_new <- data_long[(data_long$name == "chakra_new_si"), ]
+data_new <- data_long[(data_long$name == "New_mi"), ]
 ph_new <- ggplot(data = data_new, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
         theme_minimal() + ggtitle("Heatmap of New index") +
         xlab("Fsd") + ylab("Tsd")
 
-data_april <- data_long[(data_long$name == "chakra_april_si"), ]
+data_april <- data_long[(data_long$name == "April_mi"), ]
 ph_april <- ggplot(data = data_april, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
         theme_minimal() + ggtitle("Heatmap of April index") +
         xlab("Fsd") + ylab("Tsd")
 
-data_augspurger <- data_long[(data_long$name == "augspurger_si"), ]
+data_augspurger <- data_long[(data_long$name == "Augspurger_mi"), ]
 ph_augspurger <- ggplot(data = data_augspurger, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
         theme_minimal() + ggtitle("Augspurger's index") +
         xlab("Fsd") + ylab("Tsd")
@@ -169,17 +183,27 @@ cor(basedata$augspurger_si, basedata$outcross_opp_si)    #0.58
 
 #Temp
 
-mat_april <- data_long[(data_long$name == "chakra_april_si"), ]
+mat_april <- data_long[(data_long$name == "New"), ]
 #mat_april <- mat_april[(mat_april$Fsd == 30), ]  #to see how the behaviour changes at particular Fsd #nolint
-mat_april_tsd <- rbind(mat_april[(mat_april$Tsd == 10), ], mat_april[(mat_april$Tsd == 0.01), ]) #nolint
+#mat_april_tsd <- rbind(mat_april[(mat_april$Tsd == 10), ], mat_april[(mat_april$Tsd == 0.01), ]) #nolint
 
-p_mat_april_fsd <- ggplot(data = mat_april, aes(x = mating_opp_si, y = value, colour = Fsd, group = Fsd)) +               #nolint
-        geom_line() + geom_point() + theme_minimal() + ggtitle("April index vs. mating opportunities") +      #nolint
-        xlab("Mating opportunities") + ylab("April index")
+p_mat_april_fsd <- ggplot(data = mat_april, aes(x = Mating_opportunities, y = value, colour = Fsd, group = Fsd)) +               #nolint
+        geom_line() + geom_point() + theme_minimal() + ggtitle("New SI vs. Mating opportunities") +      #nolint
+        ylab("New index") + xlab("Mating opportunities") + theme(
+        text = element_text(family = "mono"),
+        plot.title = element_text(size = 12, face = "bold"),
+        axis.text.x = element_text(size = rel(0.75)),
+        axis.text.y = element_text(size = rel(0.75)),
+)
 
-p_mat_april_tsd <- ggplot(data = mat_april, aes(x = mating_opp_si, y = value, colour = Tsd, group = Tsd)) +               #nolint
-        geom_line() + geom_point() + theme_minimal() + ggtitle("April index vs. mating opportunities") +      #nolint
-        xlab("Mating opportunities") + ylab("April index")
+p_mat_april_tsd <- ggplot(data = mat_april, aes(x = Mating_opportunities, y = value, colour = Tsd, group = Tsd)) +               #nolint
+        geom_line() + geom_point() + theme_minimal() +      #nolint
+        xlab("Mating opportunities") + ylab("New index") + theme(
+        text = element_text(family = "mono"),
+        plot.title = element_text(size = 12, face = "bold"),
+        axis.text.x = element_text(size = rel(0.75)),
+        axis.text.y = element_text(size = rel(0.75)),
+)
 
 grid.arrange(p_mat_april_fsd, p_mat_april_tsd)
 
