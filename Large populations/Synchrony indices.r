@@ -376,15 +376,16 @@ outcross_opp <- function(data) {
 #Data from Souparna Chakrabarty's presentation
 data1 <- array(c(0.5, 0, 1, 0, 0.1, 0.5, 0, 1, 0, 0.1), dim = c(2, 5))
 
-freitas(data1)
-chakra_thesis(data1)
-chakra_new(data1)
-chakra_april(data1)
+augspurger(data2)
+freitas(data2)
+chakra_thesis(data2)
+chakra_new(data2)
+chakra_april(data2)
 
 mating_opp(data2)
 outcross_opp(data2)
 
-data2 <- array(c(10, 0, 10, 10, 10, 10, 10, 10, 0, 10), dim = c(2, 5))
+data2 <- array(c(1, 0, 4, 1, 1, 2, 0, 1), dim = c(2, 4))
 colnames(data2) <- c('D1', 'D2', 'D3', 'D4', 'D5')
 pop <- c('pop1', 'pop1')
 ind <- c(1, 2)

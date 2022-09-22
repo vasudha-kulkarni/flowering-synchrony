@@ -16,13 +16,13 @@ library(ggthemes)
 library(RColorBrewer)
 library(gridExtra)
 
-basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Data\\pop_data_100ind_mi_b.csv") #nolint
+basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Data\\pop_data_100ind.csv") #nolint
 basedata$Tsd <- as.factor(basedata$Tsd)
 basedata$Fsd <- as.factor(basedata$Fsd)
 
 #To make the next section of plotting easier, use 'pivot' function from 'tidyverse' library #nolint
 data_long <- basedata %>% pivot_longer(cols = -c(...1, file_names, Tsd, Fsd, Mating_opportunities)) #nolint
-data_long <- data_long[!(data_long$name == 'New_mi'), ]
+data_long <- data_long[!(data_long$name == 'New'), ]
 
 #Winnow down basedata - for extra Fsd plooting
 #basedata1 <- rbind(basedata[(basedata$Tsd == 10), ], basedata[(basedata$Tsd == 5), ], basedata[(basedata$Tsd == 1), ]) #nolint
@@ -32,12 +32,11 @@ data_long <- data_long[!(data_long$name == 'New_mi'), ]
 
 #Plotting data for 100 individuals
 
-baseplot <- ggplot(data = data_long, aes(x = Mating_opportunities, y = value, colour = name, group = name)) + #nolint
+baseplot <- ggplot(data = basedata, aes(x = Tsd, y = SC, colour = Fsd, group = Fsd)) + #nolint
         geom_point() + geom_line()
         #geom_tile()
 
-labelled <- baseplot + labs(x = "Mating opportunities", y = "Synchrony indices (mi)", title = "Variation in Synchrony indices (modified intensity)
-with Mating opportunities") #nolint
+labelled <- baseplot + labs(x = "Tsd", y = "SC index", title = "Variation in SC index with Tsd") #nolint
 
 styled <- labelled + theme_minimal() + theme(
         text = element_text(family = "mono"),

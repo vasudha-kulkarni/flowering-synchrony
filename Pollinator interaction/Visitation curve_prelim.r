@@ -13,15 +13,16 @@ library(gridExtra)
 library(RColorBrewer)
 library(readr)
 
+basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Pollinator interaction\\pop_data_100ind.csv") #nolint
+
+
 ######
 
 #Constructing a sigmoid function of pollinator visitation with flower number
-
-x <- seq(-10, 10, by = 0.5)
-y <- c()
-for (i in x) {
-    y <- append(y, logistic(i))
-}
+#Consider x as values of intensity of flowering
+x <- seq(0, 1, by = 0.05)
+y <- logistic(x * 10 - 5)         #this function shifts the sigmoid for values of x between 0 and 1 #nolint
+                                  #y always gives a value between 0 and 1
 
 data1 <- data.frame(x, y)
 
@@ -30,6 +31,23 @@ p
     
 
 ####################################################################
+
+#To construct a model of how mating opportunities vary with Tsd and Fsd
+data <- basedata[c("Mating_opportunities", "Tsd", "Fsd")]
+mat_op <- as.list(data$Mating_opportunities)
+tsd <- as.list(data$Tsd)
+fsd <- as.list(data$Fsd)
+
+
+
+mod <- lm(mat_op ~ tsd, fsd)
+plot(tsd, mat_op)
+lines(tsd, fitted(mod))
+
+mod1 <- multinom(Mating_opportunities ~., data)
+summary(mod1)
+
+
 
 #To construct a sigmoid curve between pollinator visitation rate and flower density                     #nolint
 #All of this is arbitrary numbers

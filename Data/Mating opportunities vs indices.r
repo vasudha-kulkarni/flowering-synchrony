@@ -13,7 +13,7 @@ library(gridExtra)
 library(RColorBrewer)
 library(readr)
 
-basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Data\\pop_data_30ind.csv") #nolint
+basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Data\\pop_data_100ind.csv") #nolint
 basedata$Tsd <- as.factor(basedata$Tsd)
 basedata$Fsd <- as.factor(basedata$Fsd)
 
