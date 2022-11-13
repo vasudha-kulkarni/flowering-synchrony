@@ -2,7 +2,7 @@
 
 library(tidyverse)
 
-augspurgers <- function(data) {
+augspurger_mi <- function(data) {
     n <- nrow(data)
     t <- ncol(data)
     #Number of flowering days of each individual
@@ -47,13 +47,12 @@ augspurgers <- function(data) {
   print(augspurgers_pop)
 }
 
-
-
-
 data1 <- array(c(0, 0, 0, 0, 10, 10, 0, 0, 0, 0), dim = c(2, 5))
+print(data1)
 data2 <- array(c(10, 10, 10, 10, 10, 10, 10, 10, 0, 10), dim = c(2, 5))
+print(data2)
 
-augspurgers(data2)
+augspurger_mi(data2)
 
 #Modified Augspurgers index
 

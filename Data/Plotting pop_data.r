@@ -16,7 +16,7 @@ library(ggthemes)
 library(RColorBrewer)
 library(gridExtra)
 
-basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Data\\pop_data_100ind.csv") #nolint
+basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Data\\pop_data_100ind_mi.csv") #nolint
 basedata$Tsd <- as.factor(basedata$Tsd)
 basedata$Fsd <- as.factor(basedata$Fsd)
 
@@ -24,7 +24,7 @@ basedata$Fsd <- as.factor(basedata$Fsd)
 data_long <- basedata %>% pivot_longer(cols = -c(...1, file_names, Tsd, Fsd, Mating_opportunities)) #nolint
 data_long <- data_long[!(data_long$name == 'New'), ]
 
-#Winnow down basedata - for extra Fsd plooting
+#Winnow down basedata - for extra Fsd plotting
 #basedata1 <- rbind(basedata[(basedata$Tsd == 10), ], basedata[(basedata$Tsd == 5), ], basedata[(basedata$Tsd == 1), ]) #nolint
 #basedata2 <- rbind(basedata1[(basedata1$Fsd == 0.2), ], basedata1[(basedata1$Fsd == 1), ], basedata1[(basedata1$Fsd == 2), ], basedata1[(basedata1$Fsd == 5), ], basedata1[(basedata1$Fsd == 10), ], basedata1[(basedata1$Fsd == 20), ], basedata1[(basedata1$Fsd == 30), ]) #nolint
 
@@ -73,6 +73,10 @@ p_augspurger <- ggplot(data = basedata2, aes(x = Fsd, y = augspurger_si, colour 
     geom_line() + geom_point() + theme_minimal() + ggtitle("Augsperger Index") +      #nolint
     xlab("Fsd") + ylab("Augspurger index")
 
+p_augspurger_mi <- ggplot(data = basedata, aes(x = Fsd, y = Augspurger_mi, colour = Tsd, group = Tsd)) + #nolint
+    geom_line() + geom_point() + theme_minimal() + ggtitle("Augsperger_mi Index") +      #nolint
+    xlab("Fsd") + ylab("Augspurger index (mod)")
+
 grid.arrange(p_freitas, p_thesis, p_new, p_april, p_augspurger)
 
 #####
@@ -97,6 +101,10 @@ p_april <- ggplot(data = basedata2, aes(x = Tsd, y = chakra_april_si, colour = F
 p_augspurger <- ggplot(data = basedata2, aes(x = Tsd, y = augspurger_si, colour = Fsd, group = Fsd)) + #nolint
     geom_line() + geom_point() + theme_minimal() + ggtitle("Augsperger Index") +      #nolint
     xlab("Tsd") + ylab("Augspurger index") 
+
+p_augspurger_mi <- ggplot(data = basedata, aes(x = Tsd, y = Augspurger_mi, colour = Fsd, group = Fsd)) + #nolint
+    geom_line() + geom_point() + theme_minimal() + ggtitle("Augspurger_mi Index") +      #nolint
+    xlab("Tsd") + ylab("Augspurger index (mod)") 
 
 grid.arrange(p_freitas, p_thesis, p_new, p_april, p_augspurger)
 
@@ -126,7 +134,7 @@ ph_april <- ggplot(data = data_april, aes(x = Fsd, y = Tsd, fill = value)) +  ge
 
 data_augspurger <- data_long[(data_long$name == "Augspurger_mi"), ]
 ph_augspurger <- ggplot(data = data_augspurger, aes(x = Fsd, y = Tsd, fill = value)) +  geom_tile() + #nolint
-        theme_minimal() + ggtitle("Augspurger's index") +
+        theme_minimal() + ggtitle("Augspurger's index (mod)") +
         xlab("Fsd") + ylab("Tsd")
 
 grid.arrange(ph_freitas, ph_thesis, ph_new, ph_april, ph_augspurger)
@@ -149,7 +157,7 @@ ph_outcross_opp
 
 #How well do mating opportunities correlate with indices?
 
-p_mat <- ggplot(data = data_long, aes(x = mating_opp_si, y = value, colour = name, group = name)) +               #nolint
+p_mat <- ggplot(data = data_long, aes(x = Mating_opportunities, y = value, colour = name, group = name)) +               #nolint
         geom_line() + geom_point() + theme_minimal() + ggtitle("Variation of indices with mating opportunities") +      #nolint
         xlab("Mating opportunities") + ylab("Indices")
 
@@ -208,17 +216,17 @@ grid.arrange(p_mat_april_fsd, p_mat_april_tsd)
 
 #### #Augspurger
 
-mat_april <- data_long[(data_long$name == "augspurger_si"), ]
+mat_april <- data_long[(data_long$name == "Augspurger_mi"), ]
 #mat_april <- mat_april[(mat_april$Fsd == 30), ]  #to see how the behaviour changes at particular Fsd #nolint
 mat_april_tsd <- rbind(mat_april[(mat_april$Tsd == 10), ], mat_april[(mat_april$Tsd == 0.01), ]) #nolint
 
-p_mat_april_fsd <- ggplot(data = mat_april_tsd, aes(x = mating_opp_si, y = value, colour = Fsd, group = Tsd)) +               #nolint
-        geom_line() + geom_point() + theme_minimal() + ggtitle("Augspurger index vs. mating opportunities (Tsd = 10, 0.01)") +      #nolint
-        xlab("Mating opportunities") + ylab("Augspurger index")
+p_mat_april_fsd <- ggplot(data = mat_april, aes(x = Mating_opportunities, y = value, colour = Fsd, group = Fsd)) +               #nolint
+        geom_line() + geom_point() + theme_minimal() + ggtitle("Augspurger_mi index vs. mating opportunities") +      #nolint
+        xlab("Mating opportunities") + ylab("Augspurger_mi index")
 
-p_mat_april_tsd <- ggplot(data = mat_april_tsd, aes(x = mating_opp_si, y = value, colour = Tsd, group = Fsd)) +               #nolint
-        geom_line() + geom_point() + theme_minimal() + ggtitle("Augspurger index vs. mating opportunities (Tsd = 10, 0.01)") +      #nolint
-        xlab("Mating opportunities") + ylab("Augspurger index")
+p_mat_april_tsd <- ggplot(data = mat_april, aes(x = Mating_opportunities, y = value, colour = Tsd, group = Tsd)) +               #nolint
+        geom_line() + geom_point() + theme_minimal() + ggtitle("Augspurger_mi index vs. mating opportunities") +      #nolint
+        xlab("Mating opportunities") + ylab("Augspurger_mi index")
 
 grid.arrange(p_mat_april_fsd, p_mat_april_tsd)
 

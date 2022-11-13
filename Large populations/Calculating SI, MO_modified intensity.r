@@ -42,6 +42,7 @@ print(data[1:3, 170:190])
 #To check or confirm
 
 data1 <- array(c(0, 0, 0, 0, 10, 10, 0, 0, 0, 0), dim = c(2, 5))
+data3 <- array(c(10, 1, 10, 1, 10, 1, 10, 1, 10, 0), dim = c(2, 5))
 data4 <- array(c(10, 1, 10, 1, 10, 1, 10, 1, 10, 1), dim = c(2, 5))
 
 mating_opp(data[1:30, ])
@@ -52,6 +53,7 @@ chakra_thesis(data[1:5, ])
 chakra_new(data[1:5, ])
 chakra_april(data[1:5, ])
 augspurger(data[1:5, ])
+augspurger_mi(data[1:5, ])
 
 ####################################################################
 
@@ -80,6 +82,7 @@ chakra_thesis_si <- c()
 chakra_new_si <- c()
 chakra_april_si <- c()
 augspurger_si <- c()
+augspurger_si_mi <- c()
 #mahoro_si <- c()
 #marquis_si <- c()
 #koenig_si <- c()
@@ -115,6 +118,14 @@ for (i in seq_along(data_files)) {
     outcross_opp_si <- append(outcross_opp_si, outcross_opp(data[1:30, ]))      #nolint
 }
 
+#Just modified Augspurger and mating opp
+for (i in seq_along(data_files)) {
+    #print(file_contents[[i]]) #nolint
+    data <- as.matrix(data_files[[i]])
+    augspurger_si_mi <- append(augspurger_si_mi, augspurger_mi(data[1:100, ]))
+    mating_opp_si <- append(mating_opp_si, mating_opp(data[1:100, ]))
+}
+
 #for (i in seq_along(data_files)) {
 #    #print(file_contents[[i]]) #nolint
 #    data <- as.matrix(data_files[[i]])
@@ -138,7 +149,7 @@ for (i in seq_along(data_files)) {
 #other_si <- data.frame(augspurger_si, mahoro_si, marquis_si, koenig_si, albert_si) #nolint
 #write.csv(other_si, "D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations\\Other_SIs.csv") #nolint
 
-population_data_mod_int <- data.frame(file_names, freitas_si, chakra_thesis_si, chakra_new_si, chakra_april_si, augspurger_si, mating_opp_si, outcross_opp_si) #nolint
+population_data_mod_int <- data.frame(file_names, augspurger_si_mi, mating_opp_si) #nolint
 population_data_mod_int
 
-write.csv(population_data_mod_int, "D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations\\pop_data_30ind_modified_intensity.csv") #nolint
+write.csv(population_data_mod_int, "D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations\\pop_data_100ind_augsperger_mi.csv") #nolint
