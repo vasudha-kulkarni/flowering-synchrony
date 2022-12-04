@@ -19,7 +19,7 @@ library(readr)
 
 #To calculate average maximum flowers at Fsd = 2
 
-basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations\\T_1e-04_F_2.csv") #nolint
+basedata <- read_csv("D:\\3rd Year\\Semester 6\\BI3613 - Sem project\\flowering-synchrony\\Large populations\\T_10_F_30.csv") #nolint
 data <- as.matrix(basedata)
 max_flower <- mean(max(data[1:50, 170:190]))
 
@@ -31,6 +31,27 @@ max_flower <- mean(max(data[1:50, 170:190]))
 
 #Based on the average values, let's take the maximum flower number as '30'
 #And use it as the denominator while calculating intensities
+
+#Max number of flowering days - for F=30 and T varies
+# 79 is the highest number of flowering period, but I'm going to use 80
+
+max_flo_day <- function(data) {
+  #max_days <- c()
+  #Number of flowering days of each individual
+  t_ind <- rowSums(data != 0)
+  max_t_ind <- max(t_ind)
+  return(max_t_ind)
+}
+
+max_flo_day(data)
+
+#T_0.0001_F_30 - 79
+#T_0.01_F_30 - 78
+#T_5_F_30 - 77
+#T_7.5_F_30 - 77
+#T_10_F_30 - 78
+
+#############################
 
 #Freitas index calculation
 
@@ -274,14 +295,14 @@ augspurger <- function(data) {
 
 #################################################################
 
-#Modified augspurger's index with constant denominator
+#Modified augspurger's index with constant denominator - 
 
 augspurger_mi <- function(data) {
     n <- nrow(data)
     t <- ncol(data)
     #Number of flowering days of each individual
-    t_ind <- rowSums(data != 0)
-    max_t_ind <- max(t_ind)
+    # t_ind <- rowSums(data != 0)
+    # max_t_ind <- max(t_ind)
     #Create an zeroes dataframe as a placeholder
     flo_day <- matrix(0, n, t)
     #If individual is flowering non-zero flowers, add 1 to the flow_day matrix
@@ -315,7 +336,7 @@ augspurger_mi <- function(data) {
     x2 <- append(x2, a)
   }
   #print(x2)
-  augspurgers_ind <- array(x2 / (max_t_ind * (n - 1)), dim = c(1, n))
+  augspurgers_ind <- array(x2 / (80 * (n - 1)), dim = c(1, n))
   augspurgers_pop <- mean(augspurgers_ind)
   #print(augspurgers_ind)
   print(augspurgers_pop)

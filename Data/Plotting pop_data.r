@@ -157,11 +157,15 @@ ph_outcross_opp
 
 #How well do mating opportunities correlate with indices?
 
-p_mat <- ggplot(data = data_long, aes(x = Mating_opportunities, y = value, colour = name, group = name)) +               #nolint
+data_rel <- subset(data_long, select = -c(data_long$name == 'New_mi'))
+
+data_rel <- data_long[!apply(data_long == 'New_mi', 1, any),]
+
+p_mat <- ggplot(data = data_rel, aes(x = Mating_opportunities, y = value, colour = name, group = name)) +               #nolint
         geom_line() + geom_point() + theme_minimal() + ggtitle("Variation of indices with mating opportunities") +      #nolint
         xlab("Mating opportunities") + ylab("Indices")
 
-p_out <- ggplot(data = data_long, aes(x = outcross_opp_si, y = value, colour = name, group = name)) +               #nolint
+p_out <- ggplot(data = data_rel, aes(x = outcross_opp_si, y = value, colour = name, group = name)) +               #nolint
         geom_line() + geom_point() + theme_minimal() + ggtitle("Variation of indices with outcrossing opportunities") +      #nolint
         xlab("Outcrossing opportunities") + ylab("Indices")
 
